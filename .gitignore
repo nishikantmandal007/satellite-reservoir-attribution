@@ -1,0 +1,28 @@
+# Data (large files)
+data/raw/
+*.nc
+*.tif
+*.h5
+
+# Python
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+.env
+.venv/
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.nav
+*.snm
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.xdv

@@ -1,0 +1,13 @@
+lag,p_value,F_stat,cause,effect,label
+1,0.974779436554566,0.0010050536536418628,maithon,durgapur,Maithon → Durgapur (upstream→downstream ops)
+2,0.44491381224090915,0.817460747596283,maithon,durgapur,Maithon → Durgapur (upstream→downstream ops)
+3,0.5227793295036467,0.7545375169957338,maithon,durgapur,Maithon → Durgapur (upstream→downstream ops)
+4,0.49243196340298423,0.858735866685743,maithon,durgapur,Maithon → Durgapur (upstream→downstream ops)
+1,0.4133645684689932,0.6819700847104904,anthro,climate,ΔS_anthro → ΔS_climate (NULL CHECK — should be p>0.05)
+2,0.6866160599007578,0.3794490114886059,anthro,climate,ΔS_anthro → ΔS_climate (NULL CHECK — should be p>0.05)
+3,0.8907038079441613,0.20731320798542072,anthro,climate,ΔS_anthro → ΔS_climate (NULL CHECK — should be p>0.05)
+4,0.8451365442499438,0.34577896869304425,anthro,climate,ΔS_anthro → ΔS_climate (NULL CHECK — should be p>0.05)
+1,0.5700053684232685,0.3275718806577463,climate,anthro,ΔS_climate → ΔS_anthro (NULL CHECK — should be p>0.05)
+2,0.8314536289982256,0.18541321730428717,climate,anthro,ΔS_climate → ΔS_anthro (NULL CHECK — should be p>0.05)
+3,0.7907432066357593,0.34804940918916516,climate,anthro,ΔS_climate → ΔS_anthro (NULL CHECK — should be p>0.05)
+4,0.934948140175342,0.2031398227546839,climate,anthro,ΔS_climate → ΔS_anthro (NULL CHECK — should be p>0.05)

@@ -1,0 +1,4 @@
+pair,cause,effect,opt_E,max_rho,surr_pct95,sig,conv_slope,converging,n
+ΔS_anthro xmap ΔS_climate (anthro causes climate?),anthro,climate,3,0.04433390000000001,0.3714139999999999,ns,0.0008845624242424238,flat/diverging,48
+ΔS_climate xmap ΔS_anthro (climate causes anthro?),climate,anthro,5,0.0095535,0.4102139999999995,ns,0.00029918545454545514,flat/diverging,48
+Maithon xmap Durgapur (upstream → downstream?),maithon,durgapur,1,0.29382299999999995,0.14412345999999998,SIGNIFICANT ✓,0.00419449015151515,CONVERGING ✓,94

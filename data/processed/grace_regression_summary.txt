@@ -1,0 +1,28 @@
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.869
+Model:                            OLS   Adj. R-squared:                  0.857
+Method:                 Least Squares   F-statistic:                     78.60
+Date:                Wed, 25 Mar 2026   Prob (F-statistic):           3.36e-19
+Time:                        11:16:55   Log-Likelihood:                -157.51
+No. Observations:                  48   AIC:                             325.0
+Df Residuals:                      43   BIC:                             334.4
+Df Model:                           4                                         
+Covariance Type:                  HAC                                         
+==============================================================================
+                 coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+const         -6.6399      1.126     -5.898      0.000      -8.847      -4.433
+x1            -0.5838      1.493     -0.391      0.696      -3.510       2.343
+x2            14.2603      1.219     11.699      0.000      11.871      16.649
+x3            -0.8126      1.718     -0.473      0.636      -4.180       2.555
+x4             3.8424      0.872      4.405      0.000       2.133       5.552
+==============================================================================
+Omnibus:                        9.150   Durbin-Watson:                   1.222
+Prob(Omnibus):                  0.010   Jarque-Bera (JB):                9.638
+Skew:                           0.721   Prob(JB):                      0.00807
+Kurtosis:                       4.656   Cond. No.                         3.11
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity and autocorrelation robust (HAC) using 3 lags and without small sample correction

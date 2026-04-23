@@ -1,0 +1,3 @@
+cluster,archetype,n_segments,members,event_hits,peak_month,trough_month,summer_mean_bcm,winter_mean_bcm,total_range_bcm,centroid_Jan,centroid_Feb,centroid_Mar,centroid_Apr,centroid_May,centroid_Jun,centroid_Jul,centroid_Aug,centroid_Sep,centroid_Oct,centroid_Nov,centroid_Dec
+1,NORMAL_FILL,6,"maithon_2019, maithon_2020, maithon_2021, maithon_2022, maithon_2023, maithon_2024",{2022: 'Post-monsoon high storage'},Oct,Jun,-0.0844,0.0912,0.303,0.0591,0.0407,-0.0042,-0.0739,-0.137,-0.1569,-0.149,-0.0712,0.0396,0.1461,0.1041,0.1059
+2,HIGH_FILL,1,maithon_2018,none,Apr,Jun,-0.1007,-0.0417,0.6984,0.1499,0.1102,0.0542,0.5134,-0.159,-0.185,-0.185,-0.1082,0.0756,-0.0984,-0.185,-0.185

@@ -1,0 +1,6 @@
+cluster,archetype,n_segments,members,event_hits,peak_month,trough_month,summer_mean_bcm,winter_mean_bcm,total_range_bcm,centroid_Jan,centroid_Feb,centroid_Mar,centroid_Apr,centroid_May,centroid_Jun,centroid_Jul,centroid_Aug,centroid_Sep,centroid_Oct,centroid_Nov,centroid_Dec
+1,NORMAL_FILL,2,"maithon_2023, maithon_2024",none,Oct,Jun,-0.1053,0.0371,0.2992,0.0154,-0.0178,-0.0589,-0.1069,-0.1447,-0.185,-0.185,-0.0681,0.0169,0.1141,0.0346,0.0391
+2,ABOVE_NORMAL_FILL,3,"maithon_2020, maithon_2021, maithon_2022",{2022: 'Post-monsoon high storage'},Jan,Jun,-0.0557,0.1381,0.2985,0.1697,0.155,0.0925,-0.0149,-0.1158,-0.1288,-0.1129,-0.0541,0.073,0.1399,0.1146,0.111
+3,ABOVE_NORMAL_FILL,1,maithon_2019,none,Oct,Jan,-0.1284,0.0588,0.4137,-0.185,-0.185,-0.185,-0.185,-0.185,-0.185,-0.185,-0.1284,-0.0153,0.2286,0.2114,0.224
+4,BARRAGE_IRRIGATION,7,"durgapur_2018, durgapur_2019, durgapur_2020, durgapur_2021, durgapur_2022, durgapur_2023, durgapur_2024",{2022: 'Post-monsoon high storage'},Apr,Sep,-0.0108,-0.0062,0.0665,0.0068,0.0217,0.0272,0.0316,0.0163,0.001,0.0041,-0.0134,-0.0349,-0.0314,-0.0171,-0.0109
+5,HIGH_FILL,1,maithon_2018,none,Apr,Jun,-0.1007,-0.0417,0.6984,0.1499,0.1102,0.0542,0.5134,-0.159,-0.185,-0.185,-0.1082,0.0756,-0.0984,-0.185,-0.185

@@ -1,0 +1,113 @@
+<mxGraphModel dx="1422" dy="762" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="630" pageHeight="612" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <!-- DATA INPUTS — two side-by-side boxes, tight margins -->
+    <mxCell id="rs"
+      value="&lt;b&gt;Remote Sensing&lt;/b&gt;&lt;br&gt;Sentinel-1 · MODIS · ALOS DEM&lt;br&gt;ICESat-2 · GRACE-FO · JRC Water"
+      style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1;fontSize=10;fontFamily=Helvetica;align=center;verticalAlign=middle;dashed=1;"
+      vertex="1" parent="1">
+      <mxGeometry x="15" y="18" width="280" height="62" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="clim"
+      value="&lt;b&gt;Climate &amp; Ancillary&lt;/b&gt;&lt;br&gt;CHIRPS · ERA5-Land · MODIS NDVI&lt;br&gt;ENSO · IOD · CWC Bulletins"
+      style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=1;fontSize=10;fontFamily=Helvetica;align=center;verticalAlign=middle;dashed=1;"
+      vertex="1" parent="1">
+      <mxGeometry x="315" y="18" width="280" height="62" as="geometry"/>
+    </mxCell>
+
+    <!-- Arrows: entry points aligned with input box centres -->
+    <mxCell id="a_rs"
+      style="edgeStyle=orthogonalEdgeStyle;strokeColor=#000000;strokeWidth=1.2;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;"
+      edge="1" source="rs" target="s1" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="a_clim"
+      style="edgeStyle=orthogonalEdgeStyle;strokeColor=#000000;strokeWidth=1.2;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;"
+      edge="1" source="clim" target="s1" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- STAGE 1 -->
+    <mxCell id="s1"
+      value="&lt;b&gt;Stage 1 — Storage Reconstruction&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;Sentinel-1 · MODIS · CartoDEM hypsometry · ICESat-2 calibration&lt;/font&gt;"
+      style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2;fontSize=12;fontFamily=Helvetica;align=center;verticalAlign=middle;"
+      vertex="1" parent="1">
+      <mxGeometry x="15" y="105" width="600" height="58" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="a12"
+      style="edgeStyle=none;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;"
+      edge="1" source="s1" target="s2" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- STAGE 2 -->
+    <mxCell id="s2"
+      value="&lt;b&gt;Stage 2 — Feature Engineering&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;API₆ · SCS-CN inflow proxy · VIF screening · PCA grouping&lt;/font&gt;"
+      style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2;fontSize=12;fontFamily=Helvetica;align=center;verticalAlign=middle;"
+      vertex="1" parent="1">
+      <mxGeometry x="15" y="190" width="600" height="58" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="a23"
+      style="edgeStyle=none;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;"
+      edge="1" source="s2" target="s3" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- STAGE 3 -->
+    <mxCell id="s3"
+      value="&lt;b&gt;Stage 3 — XGBoost Climate Attribution&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;Optuna tuning · Expanding-window CV · SHAP analysis&lt;/font&gt;"
+      style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2;fontSize=12;fontFamily=Helvetica;align=center;verticalAlign=middle;"
+      vertex="1" parent="1">
+      <mxGeometry x="15" y="275" width="600" height="58" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="a34"
+      style="edgeStyle=none;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;"
+      edge="1" source="s3" target="s4" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- STAGE 4 -->
+    <mxCell id="s4"
+      value="&lt;b&gt;Stage 4 — Causal Inference&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;STL decomposition · Granger-VAR · CCM · HMM (3 states)&lt;/font&gt;"
+      style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2;fontSize=12;fontFamily=Helvetica;align=center;verticalAlign=middle;"
+      vertex="1" parent="1">
+      <mxGeometry x="15" y="360" width="600" height="58" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="a45"
+      style="edgeStyle=none;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;"
+      edge="1" source="s4" target="s5" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- STAGE 5 -->
+    <mxCell id="s5"
+      value="&lt;b&gt;Stage 5 — GRACE-FO Reconciliation&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;ML downscaling 1° → 0.1° · Partial regression · β₂ significance&lt;/font&gt;"
+      style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2;fontSize=12;fontFamily=Helvetica;align=center;verticalAlign=middle;"
+      vertex="1" parent="1">
+      <mxGeometry x="15" y="445" width="600" height="58" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="a56"
+      style="edgeStyle=none;strokeColor=#000000;strokeWidth=1.5;endArrow=block;endFill=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;"
+      edge="1" source="s5" target="s6" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- STAGE 6 -->
+    <mxCell id="s6"
+      value="&lt;b&gt;Stage 6 — Fingerprint Taxonomy&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px;&quot;&gt;DTW distance matrix · Ward clustering · Silhouette selection&lt;/font&gt;"
+      style="rounded=1;arcSize=10;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;strokeWidth=2;fontSize=12;fontFamily=Helvetica;align=center;verticalAlign=middle;"
+      vertex="1" parent="1">
+      <mxGeometry x="15" y="530" width="600" height="58" as="geometry"/>
+    </mxCell>
+
+  </root>
+</mxGraphModel>

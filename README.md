@@ -148,7 +148,7 @@ A Google Earth Engine account is required for the GEE scripts.
 ## Citation
 
 ```bibtex
-@mastersthesis{mandal2026dvc,
+@bachelorsthesis{mandal2026dvc,
   author  = {Mandal, Nishi Kant},
   title   = {Satellite-Based Attribution of Anthropogenic Storage Signals
              in {Damodar Valley Corporation} Reservoirs Using Explainable

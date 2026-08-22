@@ -1,149 +1,139 @@
-# Satellite-based attribution of anthropogenic storage signals in DVC reservoirs
+# Satellite-based separation of hydroclimatic and operational storage signals in DVC reservoirs
 
-Code and data pipeline for:
+> **STATUS (2026-08): Route-B rebuild in progress.** An independent audit
+> (`journal/codex_review.md`, verified in `journal/RECOVERY_ROADMAP.md`) found four
+> submission-blocking defects in the original pipeline (reservoir geometry, GRACE
+> coefficient units, cross-validation leakage, CCM direction/linkage). **All headline
+> numbers below come from the corrected v2 pipeline.** Legacy v1 outputs remain in
+> `data/processed/` untouched for comparison; every `*_v2.csv` supersedes its v1 twin.
+> Raw inputs are being re-acquired (see `data/raw/README.md` manifest) before Stage-1
+> geometry is rebuilt on the official CWC area–elevation–capacity curve.
 
-> Mandal, N.K. (2026). *Satellite-based attribution of anthropogenic storage signals in Damodar Valley Corporation reservoirs using explainable machine learning and causal inference.* B.Tech Project Report, Department of Civil Engineering, BIT Sindri.
+Code and data pipeline for the B.Tech project of Nishi Kant Mandal (BIT Sindri,
+Civil Engineering), supervised by Dr. Maya Rajnarayan Ray.
 
-Supervised by Dr. Maya Rajnarayan Ray, Associate Professor, Department of Civil Engineering, BIT Sindri.
+## What this study does
 
-## Overview
+GRACE/GRACE-FO satellite gravimetry monitors water storage across India's river basins,
+but cannot distinguish climate-driven variability from storage change caused by dam
+operations. This study reconstructs monthly storage for Damodar Valley Corporation
+reservoirs from Sentinel-1 SAR imagery (2017–2024 primary window) and asks how much of
+the observed variability hydroclimatic drivers can explain versus managed operations —
+using expanding-window machine-learning attribution with leak-free evaluation, surrogate-
+tested convergent cross-mapping, and partial regression against GRACE-FO mascons.
 
-GRACE satellite data is increasingly used to monitor water stress across India's river basins. The problem is that GRACE cannot distinguish between climate-driven storage variability and storage changes caused by dam operations. In a managed basin like the Damodar, this distinction matters.
+All data sources are open-access; the pipeline runs at zero cost.
 
-This study reconstructs monthly reservoir storage for three DVC reservoirs (Maithon, Panchet, Durgapur Barrage) from Sentinel-1 SAR and MODIS imagery over 2002--2024, then separates climate from anthropogenic signals using XGBoost attribution with SHAP, convergent cross-mapping, Granger causality, and Hidden Markov Models. A GRACE-FO reconciliation step confirms that the anthropogenic residual is detectable even at the coarse mascon scale.
+## Headline results (corrected v2 pipeline)
 
-All data sources are open-access and the entire pipeline runs at zero cost.
+### Climate model skill is weak once leakage is removed
 
-![Study area](figures/Fig1_study_area.png)
+De-leaked expanding-window CV (tuning confined to pre-CV data, early stopping on train
+tails only, in-fold imputation, out-of-sample SHAP):
 
-*Three DVC reservoirs in the Damodar basin, Jharkhand. Maithon (23.84N, 86.82E) and Panchet (23.58N, 86.77E) are storage reservoirs for flood control and hydropower. Durgapur (23.49N, 87.31E) is a run-of-river barrage feeding 2,494 km of irrigation canals.*
+| Model | Pooled OOS NSE |
+|---|---|
+| Persistence ΔS(t−1) | **0.589** |
+| XGBoost (all rows, n=48) | 0.254 |
+| XGBoost (physically resolved rows, n=38) | −0.251 |
+| Climatology | 0.123 |
 
+Persistence beats the gradient-boosted climate model under honest evaluation. The
+practical reading: sub-monthly Maithon storage variability is dominated by operational
+memory, not by contemporaneous hydroclimate — and any residual-isolation framing that
+treated model error as "anthropogenic signal" is retired. Files: `xgb_cv_results_v2.csv`,
+`baseline_comparison_v2.csv`.
 
-## Results
+### GRACE-FO association is real but is not a mass-consistent fingerprint
 
-### Storage reconstruction and attribution
+Raw-unit partial regression (HAC Newey-West maxlags=3), response = mascon TWS [cm LWE]:
 
-Sentinel-1 area-derived water levels match CWC/DVC measured levels to within RMSE = 0.07 m (n = 8, excluding one temporal mismatch point).
+- Seasonal fit: β₂ = **+42.35 cm TWS per BCM** of ΔS_anthro, CI [+23.5, +61.2], p≈1e-5
+- Deseasonalized fit: β₂ = **+35.71 cm/BCM**, CI [+16.5, +54.9], p≈0.0003
+- Mass-only sensitivity: 4.28–5.10 cm/BCM (23,370–19,600 km²). Observed/theory ≈ **7–10×**.
 
-XGBoost trained on 8 climate features explains 57% of Maithon S1-era storage variance (NSE = 0.572). The remaining 43% is the anthropogenic residual. SHAP identifies prior-month storage anomaly, PET, and Indian Ocean Dipole as the three strongest predictors. Permutation importance confirms this ranking at p < 0.02 for each.
+The earlier claim that the coefficient matched theory within 10% was a units artifact
+(standardized coefficients labelled cm/BCM). What survives is a statistically robust
+association whose magnitude exceeds the mass-only ceiling several-fold — i.e. ΔS_anthro
+covaries with basin-wide water variation rather than isolating reservoir mass.
+Files: `grace_regression_results_v2.csv`, `grace_regression_summary_v2.txt`.
 
-<p align="center">
-  <img src="figures/Fig3_storage_timeseries.png" width="85%"/>
-</p>
+### Cross-mapping: no detectable coupling at available power
 
-<p align="center">
-  <img src="figures/Fig4a_SHAP_beeswarm.png" width="85%"/>
-</p>
+With the pyEDM convention pinned empirically on a synthetic unidirectional system and a
+matched per-library-size surrogate null, neither Maithon↔Durgapur nor
+ΔS_anthro↔ΔS_climate shows consistent exceedance at n=48 months. The earlier
+"significant convergent Maithon→Durgapur link" does not survive the corrected protocol.
+Files: `ccm_results_v2.csv`, `ccm_summary_v2.txt`.
 
+### Operational signatures separate cleanly (survives audit)
 
-### Causal independence of the anthropogenic residual
+DTW clustering of complete annual cycles (Maithon + Durgapur, 14 segments) under valid
+linkages: k-medoids K=4 silhouette **0.558** (average linkage 0.554), subsample
+stability mean ARI **0.90 ± 0.10** over 100 resamples. Durgapur barrage years remain
+perfectly cohesive. The original Ward-on-DTW implementation was invalid (Ward requires
+Euclidean input) but did not materially distort this result.
+Files: `fingerprint_linkage_v2.csv`, `taxonomy_linkage_v2_summary.txt`.
 
-CCM null checks confirm that the anthropogenic residual and the climate prediction are causally uncoupled (rho = 0.044, not significant against 999 phase-randomized surrogates). The XGBoost residual is not a modelling artifact.
+### Pilot level validation
 
-CCM separately detects a significant Maithon-to-Durgapur link (rho = 0.294 vs. surrogate 95th = 0.144, converging), consistent with downstream hydraulic connectivity through the Damodar channel.
-
-HMM partitions the anthropogenic signal into two operational regimes: DRAWDOWN (mean = -0.168 BCM, 25% of months) and NORMAL (mean = +0.033 BCM, 75% of months).
-
-<p align="center">
-  <img src="figures/Fig6c_CCM_convergence.png" width="48%"/>
-  <img src="figures/Fig7_HMM_states.png" width="48%"/>
-</p>
-
-
-### Operational fingerprint taxonomy
-
-DTW clustering of annual storage cycles separates Durgapur barrage irrigation patterns from Maithon storage reservoir behavior with 100% accuracy (7/7 Durgapur years assigned to one cluster). Silhouette score = 0.49 at K = 3.
-
-<p align="center">
-  <img src="figures/Fig8_taxonomy_maithon_durgapur.png" width="85%"/>
-</p>
-
-
-### GRACE-FO reconciliation
-
-Partial regression of GRACE-FO TWS anomaly on the anthropogenic residual, after controlling for climate, soil moisture, and PET:
-
-- beta = +3.84 cm/BCM (HAC-corrected, Newey-West)
-- 95% CI: [+2.13, +5.55] cm/BCM
-- p < 0.001
-- partial R-squared = 0.19
-
-The fitted coefficient is within 10% of the theoretical value (4.28 cm/BCM for the 23,370 km-squared Damodar basin). The result holds after deseasonalization (p = 0.0003, partial R-squared = 0.20).
-
-<p align="center">
-  <img src="figures/Fig9_GRACE_reconciliation.png" width="85%"/>
-</p>
-
-
-### Methodology
-
-<p align="center">
-  <img src="figures/Fig1_methodology_flowchart.png" width="90%"/>
-</p>
-
+Sentinel-1 area-derived elevations were compared to CWC bulletin and DVC report levels
+(n=9 points; RMSE 0.23 m, or 0.07 m excluding one temporal-mismatch point). This is a
+pilot consistency check, not formal validation — the clean subset shares repeated weekly
+readings against two distinct monthly satellite values. Exact-date multi-season
+validation is scheduled in the rebuild (roadmap task D7).
 
 ## Repository structure
 
 ```
-.
-|-- src/                              # Analysis pipeline (run in order)
-|   |-- 01_storage_reconstruction.py
-|   |-- 02_feature_engineering.py
-|   |-- 03_xgboost_shap.py
-|   |-- 04_causal_inference.py
-|   |-- 05_grace_reconciliation.py
-|   |-- 06_fingerprint_taxonomy.py
-|   |-- 07_cwc_validation.py
-|   `-- (auxiliary scripts)
-|-- gee_scripts/                      # Google Earth Engine scripts
-|   |-- s1_water_area.js              # Sentinel-1 water area extraction
-|   |-- modis_water_area.js           # MODIS backfill 2002-2013
-|   |-- driver_extraction.js          # CHIRPS, ERA5, NDVI, LULC, NTL
-|   `-- av_hypsometry.js              # Area-volume curves from ALOS DEM
-|-- notebooks/                        # Exploratory analysis
-|-- data/
-|   |-- raw/                          # GEE exports, CWC bulletins (gitignored)
-|   `-- processed/                    # Pipeline outputs
-|-- figures/                          # All figures (300 DPI, PDF + PNG)
-|-- reports/                          # Thesis, manuscript, presentations, compiled PDFs
-|   |-- main.tex                      # B.Tech thesis (LaTeX source)
-|   |-- main.pdf                      # Compiled thesis
-|   |-- references.bib                # Bibliography
-|   |-- manuscript/                   # Journal paper draft (Elsevier format)
-|   `-- presentations/                # Defense slides (Beamer + Overleaf export)
-|-- journal/                          # Research log (findings, decisions)
-`-- reservoir_watch/                  # Streamlit monitoring dashboard
+src/
+  canonical pipeline (v1 lineage):
+    01_storage_reconstruction.py     # area -> volume via AV curves (geometry rebuild pending)
+    02_feature_engineering.py        # driver matrix + VIF filtering
+    03_xgboost_attribution.py        # legacy CV (LEAKY — kept for provenance)
+    04_causal_inference.py           # Granger/HMM/CCM legacy (direction bug fixed in 04b)
+    05_grace_reconciliation.py       # legacy units bug fixed in fix_b2 script
+    06_fingerprint_taxonomy.py       # Ward-on-DTW legacy (superseded by 06b)
+    07_cwc_validation.py             # CWC/DVC level comparison
+  corrected v2 scripts (Phase-0 fixes):
+    03b_xgboost_deleak.py            # leak-free CV + baselines + OOS-SHAP
+    04b_ccm_direction_check.py       # synthetic-convention-pinned CCM, matched nulls
+    06b_taxonomy_linkage_v2.py       # valid linkages + k-medoids + bootstrap stability
+    fix_b2_grace_raw_units.py        # raw-unit GRACE regressions, side-by-side std
+    critical_checks.py               # FAIL-CLOSED read-only diagnostics
+gee_scripts/                          # Google Earth Engine exports (S1/MODIS/drivers/hypsometry)
+tests/                                # metric fixtures, fail-closed tripwire
+data/processed/                       # pipeline outputs (v1 + *_v2 corrected twins)
+journal/                              # research log: findings, decisions, roadmap, playbook
+reservoir_watch/                      # Streamlit dashboard (research demonstrator)
 ```
-
 
 ## Reproducing the analysis
 
-GEE scripts must be run first in [code.earthengine.google.com](https://code.earthengine.google.com) to generate the raw CSV exports. Place them in `data/raw/`. Climate indices (Nino 3.4, IOD/DMI) need to be downloaded from NOAA and JAMSTEC respectively.
-
-Then run the pipeline:
+1. Re-acquire raw inputs per `data/raw/README.md` (GEE exports, climate indices).
+   GEE scripts run in [code.earthengine.google.com](https://code.earthengine.google.com).
+2. Environment:
 
 ```bash
-pip install uv
-uv sync
-
-uv run python src/01_storage_reconstruction.py
+pip install uv && uv sync
+uv run python tests/test_units.py          # metric definitions + conversions
+uv run python tests/test_failclosed.py     # diagnostics fail-closed tripwire
+uv run python src/01_storage_reconstruction.py   # after geometry rebuild lands
 uv run python src/02_feature_engineering.py
-uv run python src/03_xgboost_shap.py
-uv run python src/04_causal_inference.py
-uv run python src/05_grace_reconciliation.py
-uv run python src/06_fingerprint_taxonomy.py
-uv run python src/07_cwc_validation.py
+uv run python src/03b_xgboost_deleak.py          # canonical attribution CV
+uv run python src/04_causal_inference.py         # Granger/HMM
+uv run python src/04b_ccm_direction_check.py     # canonical CCM
+uv run python src/05_grace_reconciliation.py     # download+extract
+uv run python src/fix_b2_grace_raw_units.py      # canonical GRACE regression
+uv run python src/06b_taxonomy_linkage_v2.py     # canonical clustering
 ```
-
-Full data source documentation is in Chapter 2 of the thesis (`reports/main.pdf`).
-
 
 ## Requirements
 
-Python 3.11 or later, managed through [uv](https://docs.astral.sh/uv/). Main dependencies: xgboost, shap, statsmodels, hmmlearn, dtaidistance, pyEDM, scikit-learn, pandas, matplotlib.
-
-A Google Earth Engine account is required for the GEE scripts.
-
+Python ≥3.11 via [uv](https://docs.astral.sh/uv/). Main dependencies: xgboost, shap,
+optuna, statsmodels, hmmlearn, dtaidistance, pyEDM, scikit-learn, pandas, matplotlib.
+A Google Earth Engine account is required for the export scripts; NASA Earthdata
+credentials for GRACE-FO.
 
 ## Citation
 
@@ -162,13 +152,12 @@ A Google Earth Engine account is required for the GEE scripts.
 }
 ```
 
-
 ## Contact
 
 Nishi Kant Mandal -- nishim.ce22.063@bitsindri.ac.in
 Department of Civil Engineering, BIT Sindri, Dhanbad 828123
 
-
 ## License
 
-Released for academic and research purposes. If you use this code or method, please cite the thesis above.
+Code: MIT (`LICENSE`). A CC-BY-4.0 license for processed data ships with the archival
+release (roadmap Phase 5).

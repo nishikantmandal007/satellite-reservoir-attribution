@@ -164,3 +164,30 @@ Impact: Day 8 checkpoint — NSE target not met (0.60–0.85), but scientificall
    Impact: Paper no longer claims CCM evidence for climate→anthro causation.
            Instead claims Maithon-Durgapur operational coupling (ρ=0.29, p<0.05).
            This is actually a stronger and more defensible finding.
+
+---
+
+## Session 016 — 2026-08-22 — Phase-0 Track A
+
+🔒 DECISION [D-063]: KGE definition frozen to v1 convention (CV-ratio variability term)
+   Chose: match src/03 v1 exactly | Over: textbook 2009 σ-ratio form
+   Why: v1-vs-v2 deltas must measure de-leaking only, never definition drift
+   Impact: fixture test added to tests/test_units.py guards this permanently
+
+🔒 DECISION [D-064]: pyEDM CCM direction pinned empirically on synthetic ground truth
+   Chose: coupled-logistic experiment ('A:B' significant ⇒ B causes A)
+   Over: trusting either documentation interpretation
+   Impact: F-015 direction claim inverted then invalidated; all CCM reporting now both-direction
+
+🔒 DECISION [D-065]: canonical clustering = k-medoids PAM on DTW (K=4, sil=0.5583)
+   Chose: valid-for-arbitrary-dissimilarity methods + bootstrap ARI stability
+   Over: Ward-on-DTW (invalid per SciPy docs; retained as flagged contrast only)
+   Impact: paper reports k-medoids/average results; taxonomy claim SURVIVES audit
+
+🔒 DECISION [D-066]: never overwrite v1 outputs — all corrections write *_v2 twins
+   Chose: side-by-side provenance | Over: in-place patching
+   Impact: deltas are auditable and become the paper's honesty narrative
+
+🔒 DECISION [D-067]: ΔS_anthro relabelled "unexplained storage anomaly" in all new text
+   Chose: honest estimand language | Over: residual-as-anthropogenic framing
+   Impact: README done; manuscript enforces at Phase-4 rewrite via SOP-V6 ban list

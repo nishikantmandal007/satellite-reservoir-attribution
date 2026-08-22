@@ -882,3 +882,174 @@ Priority order: Task 7 (HAC verification — integrity issue), Task 4 (residual 
 3. **Fig1_study_area.png** — only missing figure; create with Python (folium/matplotlib) or QGIS
 4. **Supervisor review** — Dr. Maya Ray reviews both documents
 5. **GitHub/Zenodo DOI** — create repo DOI for Data Availability section
+
+---
+
+## Session 013 — 2026-07-11 — Post-sprint: Publication prospect assessment
+
+### What we ran
+- Three parallel review agents: (1) scientific rigor audit of manuscript.tex vs FINDINGS.md/code, (2) submission-readiness review vs MDPI RS / JHRS / RSE requirements, (3) web-researched publication timeline & cost strategy
+- Main-thread spot-verification of all load-bearing numbers against data/processed/ files
+- Synthesized everything into journal/PROJECT_PROSPECT.md (the session deliverable)
+
+### Results
+- Headline numbers in manuscript verified consistent with FINDINGS.md (NSE, CCM, GRACE β₂, silhouettes, CWC validation)
+- **THREE NEW NUMERICAL ERRORS found in manuscript.tex (must fix before any submission/preprint):**
+  - E1: deseasonalized GRACE CI printed in BCM/BCM but labeled cm/BCM (line ~795); true deseasonalized β₂ = 2.53 cm/BCM (34% below the 3.84 headline), CI [1.17, 3.89] excludes theoretical 4.28
+  - E2: basin-area inconsistency — theoretical 4.28 uses 23,370 km² but pipeline (src/05:48) uses 19,600 km² → fitted is 75% not 90% of theoretical
+  - E3: stale mean ΔS_anthro = −0.029 in abstract; true mean = −0.0139 (delta_S_anthro.csv), inside the ±0.051 CI → "net drawdown" claim unsupported
+  - E4 (minor): β₁ p=0.573 untraceable (file says 0.696); "OLS SE 1.22" = the DW statistic; Ljung-Box lag-3/12 p-values untraceable; one caption still says "Bootstrap 95% CI"
+- **Budget reality:** MDPI Remote Sensing APC ~CHF 2,700, no automatic India waiver — CLAUDE.md's "guaranteed fallback" assumption is wrong on cost. Free routes: JoH, RSE, JISRS (subscription); JHRS gold OA ~USD 500–1,200 after GPOA discount
+- Timeline answer: submit by Aug = realistic; journal-accepted by Oct/Nov at ₹0 = impossible; citable EarthArXiv DOI by mid-Aug = ~95%
+
+### Decisions made
+🔒 DECISION [D-049]: Publication path = EarthArXiv preprint (Aug 10) + Journal of Hydrology submission (Aug 14, subscription route ₹0)
+   Chose: dual path (preprint for the Oct/Nov visibility goal + JoH for peer review)
+   Over:  MDPI Remote Sensing fast lane (blocked by APC), RSE (high desk-reject risk), HESS (APC waiver uncertain)
+   Why:   only path that satisfies both the ₹0 constraint and the Oct/Nov "published online" goal
+   Impact: July sprint calendar in PROJECT_PROSPECT.md Section 6; cascade JoH→JHRS/JISRS if rejected
+🔒 DECISION [D-050]: July sprint scope = E1–E4 fixes + attack-#1 reframing + WRIS daily validation + Panchet re-run + Granger/CCM rerun + T_C bounding. GRACE extension explicitly skipped.
+
+### Problems hit
+- None (read-only assessment session)
+
+### What changed from plan
+- Nothing executed yet; this session was assessment only
+
+### Next session starts at
+1. Fix E1–E4 in reports/manuscript/manuscript.tex (rerun src/analysis_grace_deseasonalized.py reporting in cm/BCM; reconcile basin area; update mean ΔS_anthro; delete drawdown claim)
+2. Attack-#1 reframing (rename "eight non-collinear climate drivers", define which residual feeds Stages 4–5)
+3. Nishi: WRIS/CWC daily Maithon storage download + launch Panchet GEE re-run + ask Dr. Ray the APC-funding question
+Full calendar: journal/PROJECT_PROSPECT.md Section 6
+
+---
+
+## Session 014 — 2026-07-11 — Novelty, title & multi-paper review
+
+### What we ran
+- Two web-research agents (one resumed after a rate-limit interruption): literature novelty audit (~20 searches, 2019–2026) and multi-paper portfolio strategy (venue costs verified)
+- Main-thread title–work alignment audit
+- Deliverable: journal/NOVELTY_IMPACT_REVIEW.md
+
+### Results
+- **Title verdict:** misaligned in 3 places — "Anthropogenic Fingerprints" and "Attribution Evidence" overreach; "Explainable AI" is a liability; the strongest finding (operations dominate, NSE_climate=0.018) is absent from the title. Recommended retitle: "Reservoir operations dominate sub-annual storage variability: satellite-based separation of operational and climatic signals in the DVC system, India." pdftitle (line 56) still carries the abandoned "Causally Attributable" title.
+- **Novelty verdicts:** (a) S1+hypsometry storage in India = ALREADY DONE (RAT operational; Vanthof & Kelly 2020; Suresh 2024); (b) ML-residual attribution = INCREMENTAL (Humphrey & Gudmundsson 2019; Hou et al. 2022 HESS did global reservoir-scale climate-vs-management); (c) surrogate-tested CCM on satellite dam-cascade storage = narrow defensible first; (d) DTW "taxonomy" = weakest claim, rename to "operational signature separation" (Vu et al. 2022 HESS precedent); (e) climate-controlled regression test of a ~1 BCM system in GRACE-FO = FIRST narrowly (GERD/Three Gorges/Longyangxia are 10–40× larger signals). No prior GRACE–Damodar study exists.
+- **10 mandatory citation additions identified** (Hou 2022, Vu 2022, Suresh 2024, Humphrey & Gudmundsson 2019, Abdelmohsen 2024 GERD, Wang 2011, Yi 2017, Vanthof & Kelly 2020, Turner 2021/Steyaert 2022, Physica A 2022/Bonotto 2022) — only Ji 2023 currently in references.bib
+- **Portfolio verdict:** realistically 2 strong papers + Zenodo DOI + conferences. DO NOW: main paper + Zenodo DOI. DO AFTER: 20–150 reservoir India scale-up (→WRR with waiver request; the M.Tech paper). SKIP: 2-reservoir data paper (no free venue), JOSS as-is (GUI-only fails scope), standalone GRACE downscaling (saturated — 80-paper review exists, exact stacking design published 2026). Conferences: EGU virtual (Roland Schlich waiver, apply Dec 1), ISRS symposium.
+- Impact estimate: ~15–40 citations over 5 years at JoH tier
+
+### Decisions made
+🔒 DECISION [D-051]: Retitle to lead with the operations-dominate finding; rename "taxonomy" → "operational signature separation"; keep "fingerprint" only for the Durgapur result
+   Chose: finding-led honest title | Over: current "Fingerprints/Attribution/Explainable AI" title
+   Why: novelty audit shows the current title claims the wrong novelty; every individual method has prior art
+   Impact: sprint items 3–5 in NOVELTY_IMPACT_REVIEW.md §4 (~+3 days, fits existing calendar slack)
+🔒 DECISION [D-052]: Portfolio = main paper (JoH) + Zenodo DOI now; India-scale follow-up after; skip data paper as-is, JOSS as-is, standalone GRACE downscaling
+
+### Problems hit
+- Both agents terminated mid-run on session rate limit; resumed via SendMessage with context intact — no work lost
+
+### Next session starts at
+Execute the July sprint per PROJECT_PROSPECT.md §6 + NOVELTY_IMPACT_REVIEW.md §4:
+1. Fix E1–E4 numerical errors (highest priority)
+2. Retitle + metadata/README alignment + attack-#1 reframing
+3. Add the 10 mandatory citations + positioning/confounder paragraphs
+4. Nishi: WRIS daily download, Panchet GEE re-run, Zenodo DOI, APC question to Dr. Ray
+
+---
+
+## Session 015 — 2026-07-11 — Codex review verification + Route B recovery roadmap
+
+### What we ran
+- Read journal/codex_review.md (independent technical audit added by Nishi)
+- Verified its 4 submission-blocking claims directly against code and data (read-only)
+- Deliverable: journal/RECOVERY_ROADMAP.md (Route B plan + defect registry + release plan)
+
+### Results — ALL FOUR CODEX BLOCKERS CONFIRMED
+- B1 Geometry: fit_av_params.py:39 FSL=174.5m vs CWC 2020 official FRL=150.88m; dead 0.185 vs CWC 0.0949 BCM; fitted b=3.000 exactly at optimizer upper bound → Stage 1 must be rebuilt on the CWC 2019 E-A-C table; ALL downstream results provisional
+- B2 GRACE units: src/05:418-419 z-standardizes predictors → β₂=3.8424 is cm per SD, not cm/BCM. True coefficient = 3.8424/SD(0.0917) ≈ 41.9 cm/BCM vs theoretical 4.28–5.10 → "within 10% of theory" collapses; only the association survives. (Supersedes Session-013 E1/E2 which caught the units mislabel but not the standardization.)
+- B3 CV leakage: src/03:221-249 Optuna tunes on last 25% (overlaps CV test folds); :303-309 early stopping on each test fold; pre-split AET imputation; pbias() actually computes normalized MAE
+- B4 CCM/DTW: src/04:525-531 reads only 'cause:effect' and interprets direction backwards (pyEDM convention is reverse); max-ρ vs single-library-size null mismatch; src/06:176-177 Ward linkage on non-Euclidean DTW matrix (invalid per SciPy docs)
+- Also validated: F-020 pseudoreplication (7 weekly gauge pts vs 2 distinct satellite values), Durgapur hand-scaled proxy misuse, README broken command (0-byte 03_xgboost_shap.py), critical_checks.py fails open, ReservoirWatch overstatements
+
+### Decisions made
+🔒 DECISION [D-053]: Route B adopted — August submission CANCELLED; build the mass-balance attribution paper with operational data; target 2027 acceptance
+   Chose: Route B only | Over: Route A August rescue paper, or A-then-B
+   Why: Nishi's explicit choice ("best paper possible"); Codex review shows the integrated paper cannot be patched
+   Impact: PROJECT_PROSPECT.md §4–6 timeline and NOVELTY_IMPACT_REVIEW.md submission recommendations SUPERSEDED. Novelty/citation audit, portfolio logic, venue costs, EGU Dec-1 waiver deadline remain valid.
+🔒 DECISION [D-054]: Roadmap-only session — NO code changes until Nishi + Dr. Ray review RECOVERY_ROADMAP.md
+🔒 DECISION [D-055]: FINDINGS.md F-009, F-015, F-017, F-019, F-023, F-024, F-026, F-027, F-029, F-031 are PROVISIONAL pending Phase-0 rebuild (geometry + leakage + units affect all). F-001–F-005 (sensor-level) unaffected. Do NOT edit FINDINGS.md (append-only rule) — this decision entry is the supersession record.
+
+### Problems hit
+- None (read-only session)
+
+### Next session starts at
+AWAITING ROADMAP APPROVAL from Nishi + Dr. Ray. On approval → Phase 0:
+1. Download + digitize CWC 2019 Maithon E-A-C table (cwc.gov.in sedimentation report, URL in codex_review §16)
+2. Rebuild Maithon storage on the CWC curve (PCHIP interpolation, CWC dead/live definitions)
+3. Fix B2/B3/B4/D10/D12 in code; write the "what survives" memo
+4. Release hygiene batch (LICENSE, CITATION.cff, manifest, README, ReservoirWatch relabel)
+Nishi parallel task: test WRIS daily Maithon download (de-risks Phase-1 Gate 2)
+
+### Session 015 addendum — best-paper extensions + AI policy folded into roadmap
+- RECOVERY_ROADMAP.md updated: new section "Phase 2b/3b — BEST-PAPER EXTENSIONS" (X1–X9: transferability test, event-study causal design, ICESat-2 validation, global-product benchmark, GRACE forward-modeling, uncertainty budget, hydropower release proxy, OSF preregistration, external co-author) with phase assignments, effort, and cut-safety; rejected additions listed
+- Schedule impact recorded: submission window moves to Dec 2026–Feb 2027; with X1/X2 landed, WRR becomes a credible primary target above JoH
+- New subsection "AI assistance & authorship policy": disclosure-based compliance (all target publishers permit disclosed AI assistance, none permit AI authorship), 5-point project policy for Dr. Ray's sign-off (Gate 10)
+🔒 DECISION [D-056]: All nine best-paper extensions folded into Route B; X2 (event study) REPLACES CCM/Granger as the causal core; deep learning / standalone downscaling / extra causal methods / MODIS-era explicitly rejected
+🔒 DECISION [D-057]: AI-use policy = full disclosure per journal wording + human verification of every number and citation + Nishi's own final revision pass. No evasion of AI screening — undisclosed use is the actual risk, not disclosure.
+
+### Session 015 addendum 2 — Execution playbook + document precedence
+- Created journal/EXECUTION_PLAYBOOK.md: agent-executable SOPs — document precedence map (§0), SOP-V paper verification (V1 number tracing → V8 human sign-offs, with commands and ACCEPT tests), SOP-R repo alignment (R1 hygiene → R5 fail-closed, with acceptance greps/tests), SOP-D dataset release (manifest, dictionary, CWC E-A-C digitization spec, Zenodo), SOP-A AI-compliance workflow (ledger + disclosure text + hard rules), Phase-0 runbook P0.1–P0.10 with per-step ACCEPT/ON-FAIL, standing agent rules
+- Added supersession banners to PROJECT_PROSPECT.md and NOVELTY_IMPACT_REVIEW.md (which sections are dead vs still valid) so no executor follows the cancelled August plan
+- Executability review of the session's md files: codex_review.md (external, reference-only — fine as-is), RECOVERY_ROADMAP.md (decision+plan level — now paired with the playbook for the how), PROSPECT/NOVELTY docs (assessments — banners added). The playbook is the single entry point for execution.
+🔒 DECISION [D-058]: EXECUTION_PLAYBOOK.md is the authoritative procedures document; precedence = RECOVERY_ROADMAP + PLAYBOOK > NOVELTY_IMPACT_REVIEW > PROJECT_PROSPECT; on numeric conflict, recompute from data/processed/
+- Phase-0 code execution remains gated on Nishi's explicit "roadmap approved / start Phase 0" (D-054 unchanged)
+
+### Session 015 addendum 3 — Paper production SOP (figures, writing, verification, structure)
+- Created journal/PAPER_PRODUCTION_SOP.md: Part A manuscript folder structure + migration spec (monolith → sections/, figures_src/ vs figures_pub/, ACCEPT = identical PDF rebuild); Part B SOP-F figures (Track 1 matplotlib via src/pubstyle.py to be extracted from regenerate_figures_pub.py, Track 2 draw.io for all illustrations; SVG+.drawio = committed source, PDF = submission format since Elsevier does NOT accept SVG; per-figure ACCEPT incl. pdffonts embedding + CVD simulation; Route-B figure plan fig01–08); Part C SOP-W writing craft (figures-first order, two-stage drafting, per-section recipes, claims ladder, anti-AI-tell own-voice pass); Part D SOP-WV writing verification V-W1–V-W8; Part E journal specs web-verified 2026-07-11 (Elsevier: 90/140/190mm, 300/500/1000 dpi, 7pt, EPS/PDF only, RGB, exact GenAI-declaration wording+placement; AGU: ≤250w abstract, 1–3 key points ≤140 chars, PLS ≤200w, FAIR data mandatory; HESS: pdf/ps/eps/jpg/png/tif, 300 dpi, ≥8cm) with source URLs; AGU figure-page detail UNVERIFIED (403) — flagged for submission-day V-W8 recheck
+- Research agent for specs was killed mid-outage; verification completed inline via direct fetches instead
+- EXECUTION_PLAYBOOK.md §0 document map updated (SOP inserted as doc #3, precedence CURRENT)
+🔒 DECISION [D-059]: Figure pipeline = author in SVG/.drawio (committed sources), submit PDF; draw.io mandated for all illustrations/schematics; Wong palette + fixed series-color mapping across all figures
+🔒 DECISION [D-060]: Manuscript folder restructure spec adopted (Part A) — executes in Phase 4; ACCEPT = page-count-identical rebuild from split sections
+
+---
+
+## Session 016 — 2026-08-22 — Route B Phase 0, Track A executed (code corrections)
+
+### What we ran
+- Full project re-audit: verified Codex blockers B1–B4 against code independently; discovered `data/raw/` is GONE from the machine (new blocker L1) and that the deseasonalized GRACE script used a BCM response while the main used cm (both standardized-X)
+- `src/fix_b2_grace_raw_units.py` — NEW: raw-unit + standardized GRACE regressions side-by-side, back-transformation identity audit (<1e-8 PASS both variants), theoretical mass ceiling under both published basin areas
+- `src/03b_xgboost_deleak.py` — NEW: leak-free CV. Tuning confined to months [0,24) before first test index; early stopping on train tails then refit; in-fold AET+lag imputation from train climatology only; per-fold OOS SHAP; TRUE PBIAS + nMAE_std correctly labelled; persistence/climatology/zero baselines under identical OOS framework; no-lag sensitivity; 50-seed bootstrap
+- `src/04b_ccm_direction_check.py` — NEW: pyEDM direction convention pinned empirically on synthetic unidirectional coupled-logistic ground truth; real pairs re-run with BOTH directions and matched per-library-size surrogate nulls (299 surrogates × full ρ(L) curves)
+- `src/06b_taxonomy_linkage_v2.py` — NEW: Ward(contrast-only, flagged invalid) vs average vs complete vs k-medoids PAM on the same DTW matrix; K=2..6 silhouette grid; 100-subsample bootstrap ARI stability; maithon-only control run
+- `tests/test_units.py`, `tests/test_failclosed.py` — NEW: metric fixtures (NSE/KGE/true-PBIAS hand-computed), cm↔BCM conversions, D12 fail-closed tripwire (nonzero exit + read-only assertion)
+- `src/critical_checks.py` — REWRITTEN fail-closed (D12): preflight manifest, exit(1) with explicit missing-input list, read-only, CLEAR only if all checks ran
+- Hygiene R1: LICENSE (MIT), CITATION.cff, deleted 0-byte `03_xgboost_shap.py`, README truth-pass rewrite (v2 headline numbers, script map, status banner, ban-list clean), pyproject metadata, ReservoirWatch relabel (Panchet removed from selector, fabricated confidence display removed, "no automatic updates" stated)
+- `data/raw/README.md` manifest created — doubles as Track-B re-acquisition checklist (18 items)
+
+### Results (all v2, provisional until Nishi confirms)
+- **B2:** β₂ raw = **+42.35 cm/BCM** seasonal (CI [+23.5,+61.2], p≈1e-5); **+35.71** deseasonalized (p≈0.0003) = **7–10× mass-only ceiling** → "within 10% of theory" DEAD; association survives as cross-scale covariation
+- **B3:** de-leaked XGBoost pooled NSE_all = **0.254**, unclipped = **−0.251** (v1 leaked: 0.581/+0.208). **Persistence beats XGBoost everywhere (0.589)**. Fold 4 deeply negative (−0.644). Bootstrap CI widens ±0.051→±0.090 BCM. OOS-SHAP: dS_lag1 41.5% > DMI 21.7% > Q_inflow 9.4%
+- **B4a:** convention rule empirically INVERTED vs v1 assumption ('A:B' significant ⇒ B causes A). Maithon↔Durgapur ns in BOTH directions under matched nulls (ρ=0.251 vs envelope 0.422, exceedance 0%) → F-015 coupling claim DEAD. anthro↔climate ns both ways
+- **B4b:** taxonomy SURVIVES audit: k-medoids K=4 sil=**0.5583**, stability ARI 0.904±0.103; maithon-only sil=0.4381 EXACTLY reproduces v1
+- Fail-closed diagnostics verified: exit 1 with input list when raw absent; zero bytes touched
+
+### Decisions made
+🔒 DECISION [D-063]: KGE variability term kept IDENTICAL to v1 (CV-ratio form, Kling et al. 2012) so v1-vs-v2 deltas measure de-leaking only, never definition drift. Caught by our own fixture test (2009 σ-ratio form gave different value).
+🔒 DECISION [D-064]: CCM direction semantics pinned by synthetic ground-truth experiment, not documentation trust; both directions always reported.
+🔒 DECISION [D-065]: canonical taxonomy method = k-medoids (valid on DTW) K=4; Ward retained only as flagged contrast.
+🔒 DECISION [D-066]: v1 outputs never overwritten; every corrected result writes a *_v2 twin — the deltas are themselves paper material (honesty narrative).
+🔒 DECISION [D-067]: ΔS_anthro vocabulary downgraded to "unexplained storage anomaly" in all new public-facing text (README done; manuscript at Phase 4).
+
+### Problems hit
+- pandas Index.map() returns Index not Series → fillna TypeError in impute_infold; fixed via explicit Series construction
+- scipy linkage rejects 'ward_raw' label; mapped to 'ward' internally
+- First Optuna trial failed before the pandas fix; rerun clean (366 s total)
+
+### What changed from plan
+- Track A executed BEFORE geometry rebuild (playbook P0.4 order swapped): possible because data/processed/ survived; Stage-1 rebuild remains gated on Track B inputs
+- NEW blocker recorded (L1/N1): data/raw absent from machine — re-acquisition checklist written into manifest
+
+### Next session starts at
+1. Nishi executes Track B per `data/raw/README.md`: WRIS daily download → GEE re-export (s1/modis/drivers) → CWC sedimentation PDF hunt → HydroBASINS polygon
+2. On CWC PDF arrival: SOP-D-3 three-way E-A-C digitization + anchor verification (D-062 protocol)
+3. Then P0.3–P0.4 (eac_curve.py module + Stage-1 rebuild) → rerun 02→03b→04b→fix_b2 chain on rebuilt series → update PHASE0_RESULTS.md verdicts

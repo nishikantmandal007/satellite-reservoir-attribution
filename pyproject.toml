@@ -1,8 +1,14 @@
 [project]
 name = "dvc-research"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.2.0"
+description = "Satellite-based separation of hydroclimatic and operational storage signals in DVC reservoirs — Route-B rebuild with corrected statistics"
 readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Nishi Kant Mandal", email = "nishim.ce22.063@bitsindri.ac.in" },
+    { name = "Maya Rajnarayan Ray" },
+]
+keywords = ["reservoirs", "GRACE-FO", "Sentinel-1", "attribution", "Damodar"]
 requires-python = ">=3.11"
 dependencies = [
     "dtaidistance>=2.4.0",

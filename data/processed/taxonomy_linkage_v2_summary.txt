@@ -1,0 +1,8 @@
+TAXONOMY LINKAGE AUDIT v2
+Segments: 14 | methods x K grid | bootstrap stability of 'kmedoids' (K=4): mean ARI=0.904 ± 0.103 over 100 subsamples
+
+BEST VALID: kmedoids K=4 silhouette=0.5583
+Ward-on-DTW (v1 method): INVALID for non-Euclidean distances (best sil 0.5535 shown for contrast only)
+
+F-011 claimed K=5 sil=0.5535 under Ward-on-DTW.
+v2 verdict: see BEST VALID line above — report THAT in the paper.

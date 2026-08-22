@@ -120,11 +120,12 @@ iframe { border: none !important; }
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("### 💧 ReservoirWatch")
-    st.markdown("Passive satellite-based operational regime monitoring")
+    st.markdown("**Research demonstrator** — retrospective data to Dec 2024; "
+                "not an operational monitoring service")
     st.markdown("---")
     dam_choice = st.radio(
         "Select Reservoir",
-        options=["Maithon", "Panchet", "Durgapur"],
+        options=["Maithon", "Durgapur"],
         index=0,
     )
     reservoir = dam_choice.lower()
@@ -134,7 +135,7 @@ with st.sidebar:
     st.markdown("**Period**")
     st.markdown("2002 – 2026")
     st.markdown("**Update frequency**")
-    st.markdown("Monthly (auto)")
+    st.markdown("Static snapshot — no automatic updates")
     st.markdown("---")
     st.markdown("**Regime legend**")
     for label, color in REGIME_COLORS.items():
@@ -233,7 +234,6 @@ with col_info:
 
     # Current regime card
     rcolor = current.get("color", "#1565c0")
-    conf_pct = int(current["confidence"] * 100)
     delta_str = (
         f"ΔS = {current['delta_s']:+.3f} BCM"
         if current["delta_s"] is not None and not pd.isna(current["delta_s"])
@@ -247,7 +247,7 @@ with col_info:
                 <div class="regime-text" style="color:{rcolor}">{current['regime'].upper()}</div>
             </div>
             <div class="regime-sub">
-                Confidence: {conf_pct}% &nbsp;·&nbsp; {delta_str} &nbsp;·&nbsp;
+                {delta_str} &nbsp;·&nbsp;
                 Updated: {current['updated']}
             </div>
         </div>""",
@@ -395,7 +395,7 @@ with col_info:
             unsafe_allow_html=True,
         )
     with col_dl:
-        export_df = regime_df[["date", "water_area_km2", "delta_S_obs_bcm", "regime_label", "confidence"]]
+        export_df = regime_df[["date", "water_area_km2", "delta_S_obs_bcm", "regime_label"]]
         st.download_button(
             label="⬇ Download CSV",
             data=export_df.to_csv(index=False).encode(),

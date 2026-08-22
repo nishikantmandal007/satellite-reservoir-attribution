@@ -1,0 +1,9 @@
+CCM v2 — corrected direction reading + matched-per-L surrogate nulls
+Surrogates: 299; convention pinned empirically:
+  out[col:tgt] measures estimating TGT from COL's manifold -> significant col:tgt is evidence that TGT CAUSES COL
+
+RESULTS:
+  maithon->durgapur (columns=maithon, E=5): rho[Lmax]=+0.251 surr95[Lmax]=+0.422 margin=-0.172 exceed_frac=0.00 slope=+0.00441 => ns
+  maithon->durgapur (columns=durgapur, E=3): rho[Lmax]=+0.114 surr95[Lmax]=+0.308 margin=-0.194 exceed_frac=0.10 slope=-0.00139 => ns
+  anthro->climate (columns=anthro, E=2): rho[Lmax]=+0.163 surr95[Lmax]=+0.240 margin=-0.077 exceed_frac=0.30 slope=+0.00058 => ns
+  anthro->climate (columns=climate, E=6): rho[Lmax]=+0.238 surr95[Lmax]=+0.227 margin=+0.010 exceed_frac=0.60 slope=+0.00309 => ns

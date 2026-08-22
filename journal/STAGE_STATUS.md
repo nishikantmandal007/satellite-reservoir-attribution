@@ -6,12 +6,17 @@
 
 | Stage | Name | Status | Last Updated | Key Output |
 |-------|------|--------|-------------|------------|
-| 1 | Multi-sensor storage reconstruction | COMPLETE (revised) | Session 006 | DVC_storage_timeseries_2002_2024.csv — 3 bugs fixed (D-029, D-030) |
-| 2 | Driver dataset construction | COMPLETE | Session 006 | X_climate_final.csv (264×8, API6 restored after baseline fix) |
-| 3 | XGBoost + SHAP attribution | COMPLETE (integrity-audited) | Session 012 | UNCLIPPED: NSE=0.208, KGE=0.226; Persistence beats on clipped (0.589 vs 0.581), XGB wins on physical (0.412 vs 0.216); T_C contamination r=−0.52; Regime NSE: filling=−0.75, drawdown=−1.97; 4/8 features significant by permutation |
-| 4 | Causal inference (Granger + CCM) | COMPLETE (re-verified) | Session 009 | Granger ns (p=0.44); Maithon-Durgapur CCM SIGNIFICANT (ρ=0.294>surr95th=0.144, converging, E=1); climate-anthro CCM ns (ρ=0.044); null checks pass; HMM: DRAWDOWN 25%/NORMAL 75% |
-| 5 | GRACE-FO reconciliation | COMPLETE (deseasonalized-verified) | Session 012 | C3 SUPPORTED: β₂=+3.84 cm/BCM, HAC p<0.001; deseasonalized β₂ p=0.0003, partial R² increased 0.187→0.201; physically consistent (90% of theoretical 4.28 cm/BCM) |
-| 6 | Operational fingerprint taxonomy | COMPLETE (re-verified) | Session 009 | Maithon+Durgapur K=5 sil=0.5535 (publishable); Maithon-only K=2 sil=0.4381 (acceptable); scale check passed |
+| 1 | Multi-sensor storage reconstruction | COMPLETE (revised) → **REBUILD PENDING (B1 geometry)** | Session 016 | v1 series stands; CWC E-A-C rebuild gated on Track-B data (`data/raw/README.md` manifest) |
+| 2 | Driver dataset construction | COMPLETE | Session 006 | X_climate_final.csv (264×8); raw inputs must be re-acquired (L1) before re-runs |
+| 3 | XGBoost + SHAP attribution | **v2 CORRECTED** (leak-free) | Session 016 | De-leaked: pooled NSE=0.254, unclipped −0.251; persistence wins (0.589). Files: `xgb_cv_results_v2.csv`, `baseline_comparison_v2.csv`, `delta_S_anthro_v2.csv`, `shap_values_oos_v2.csv` |
+| 4 | Causal inference (Granger + CCM) | **v2 CORRECTED** | Session 016 | CCM ns BOTH directions under matched per-L nulls; direction convention empirically pinned ('A:B'⇒B causes A). F-015 coupling DEAD. `ccm_results_v2.csv`; HMM refit pending |
+| 5 | GRACE-FO reconciliation | **v2 CORRECTED** (units) | Session 016 | β₂ raw = +42.35 cm/BCM (seasonal) / +35.71 (deseasonalized) = 7–10× mass ceiling → association only. `grace_regression_results_v2.csv` |
+| 6 | Operational fingerprint taxonomy | **SURVIVES audit** (method corrected) | Session 016 | k-medoids K=4 sil=0.5583, ARI stability 0.904; maithon-only control 0.4381 exact. `fingerprint_linkage_v2.csv` |
+
+> **Session 016 note:** Phase-0 Track A (code corrections B2/B3/B4/D10/D12/R1)
+> executed from surviving `data/processed/`. Track B (raw-data re-acquisition —
+> `data/raw/` was lost from the machine) gates Stage-1 geometry rebuild and all
+> PENDING re-runs listed in `journal/PHASE0_RESULTS.md`.
 
 ---
 

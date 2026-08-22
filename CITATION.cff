@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software or its outputs, please cite it using the
+  metadata below (a journal/preprint preferred-citation will be added
+  once a DOI exists).
+title: dvc-research
+authors:
+  - family-names: Mandal
+    given-names: Nishi Kant
+    affiliation: BIT Sindri, Department of Civil Engineering
+    email: nishim.ce22.063@bitsindri.ac.in
+  - family-names: Ray
+    given-names: Maya Rajnarayan
+    affiliation: BIT Sindri, Department of Civil Engineering
+version: 0.2.0-phase0
+date-released: "2026-08-22"
+repository-code: "https://github.com/nishimandal/dvc-research"
+keywords:
+  - reservoirs
+  - GRACE-FO
+  - Sentinel-1
+  - water storage
+  - attribution
+  - Damodar Valley Corporation
+license: MIT
